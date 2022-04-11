@@ -20,7 +20,7 @@ app.get("/api/getdata", (req, res) => {
   });
 });
 
-const queryvariant = "SELECT * FROM t_pages WHERE id = ?";
+const queryvariant = "SELECT * FROM t_pages WHERE id = ? WHERE status = 0";
 // Route to get all posts
 app.get("/api/getdatafrompage/:id", (req, res) => {
   const id = req.params.id;
@@ -33,7 +33,7 @@ app.get("/api/getdatafrompage/:id", (req, res) => {
 });
 
 const querypages =
-  "SELECT JSON_ARRAYAGG(nome) AS namelist FROM t_pages ORDER BY nome DESC";
+  "SELECT JSON_ARRAYAGG(nome) AS namelist FROM t_pages WHERE status = 0 ORDER BY nome DESC ";
 // Route to get all posts
 app.get("/api/getdatapages", (req, res) => {
   const id = req.params.id;
@@ -45,7 +45,8 @@ app.get("/api/getdatapages", (req, res) => {
   });
 });
 
-const querycats = "SELECT id, category FROM t_category ORDER BY category DESC";
+const querycats =
+  "SELECT id, category FROM t_category WHERE status = 0 ORDER BY category DESC ";
 // Route to get all posts
 app.get("/api/getdatacats", (req, res) => {
   const id = req.params.id;
@@ -80,13 +81,17 @@ app.get("/api/deletecategory/:id", (req, res) => {
   const id = req.params.id;
   //const text = req.body.text;
 
-  db.query("DELETE FROM t_category WHERE id = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
+  db.query(
+    "UPDATE t_category SET status = 1 WHERE id = ?",
+    id,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      res.send(result);
     }
-    console.log(result);
-    res.send(result);
-  });
+  );
 });
 
 app.get("/api/editcategory/:id~:nome", (req, res) => {
@@ -113,8 +118,54 @@ app.get("/api/getpagesfromcat/:id", (req, res) => {
   //const text = req.body.text;
 
   db.query(
-    "SELECT id, nome, contenuto FROM t_cat_pag_link INNER JOIN t_pages ON t_pages.id = t_cat_pag_link.id_pag WHERE id_cat = ?",
+    "SELECT id, nome, contenuto FROM t_cat_pag_link INNER JOIN t_pages ON t_pages.id = t_cat_pag_link.id_pag WHERE id_cat = ? AND status = 0",
     id,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      res.send(result);
+    }
+  );
+});
+
+app.get("/api/createpage/:name", (req, res) => {
+  //const id = req.body.id;
+  const name = req.params.name;
+  //const text = req.body.text;
+
+  db.query("INSERT INTO t_pages (nome) VALUES (?)", name, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result);
+    res.send(result);
+  });
+});
+
+app.get("/api/page/:id", (req, res) => {
+  //const id = req.body.id;
+  const id = req.params.id;
+  //const text = req.body.text;
+
+  db.query("UPDATE t_pages SET status = 1 WHERE id = ?", id, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result);
+    res.send(result);
+  });
+});
+
+app.get("/api/editpage/:id~:nome", (req, res) => {
+  //const id = req.body.id;
+  const id = req.params.id;
+  const nome = req.params.nome;
+
+  db.query(
+    "UPDATE t_pages SET nome = ? WHERE id = ?",
+    [nome, id],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -153,6 +204,9 @@ app.get("/", (req, res) => {
   text += "<p>/api/createcategory/:name</p>";
   text += "<p>/api/deletecategory/:id</p>";
   text += "<p>/api/editcategory/:id~:nome</p>";
+  text += "<p>/api/createpage/:name</p>";
+  text += "<p>/api/deletepage/:id</p>";
+  text += "<p>/api/editpage/:id~:nome</p>";
   text += "<p>/api/create (POST)</p>";
 
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
