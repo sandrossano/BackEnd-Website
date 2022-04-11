@@ -107,6 +107,24 @@ app.get("/api/editcategory/:id~:nome", (req, res) => {
   );
 });
 
+app.get("/api/getpagesfromcat/:id", (req, res) => {
+  //const id = req.body.id;
+  const id = req.params.id;
+  //const text = req.body.text;
+
+  db.query(
+    "SELECT id, nome, contenuto FROM t_cat_pag_link INNER JOIN t_pages ON t_pages.id = t_cat_pag_link.id_pag WHERE id_cat = ?",
+    id,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      res.send(result);
+    }
+  );
+});
+
 // Route for creating the post
 app.post("/api/create", (req, res) => {
   //const id = req.body.id;
@@ -131,6 +149,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/getdatapages</p>";
   text += "<p>/api/getdatacats</p>";
+  text += "<p>/api/getpagesfromcat/:id</p>";
   text += "<p>/api/createcategory/:name</p>";
   text += "<p>/api/deletecategory/:id</p>";
   text += "<p>/api/editcategory/:id~:nome</p>";
