@@ -53,7 +53,7 @@ app.post("/api/create", (req, res) => {
 
 /*Vecchio |*/
 
-const queryroles = "SELECT name" + " FROM t_roles";
+const queryroles = "SELECT name FROM t_roles";
 // Route to get all posts
 app.get("/api/getroleslist", (req, res) => {
   const id = req.params.id;
@@ -65,7 +65,7 @@ app.get("/api/getroleslist", (req, res) => {
   });
 });
 
-const queryapp = "SELECT name" + " FROM t_app";
+const queryapp = "SELECT name FROM t_app";
 // Route to get all posts
 app.get("/api/getapplist", (req, res) => {
   const id = req.params.id;
@@ -371,10 +371,10 @@ app.get("/api/editrole/:id~:email~:arrayroles", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  var text = "Backend Timesheet: <p>/api/getdata</p>";
-  text += "<p>/api/getdata/:id</p>";
+  var text = "Backend Website: <p>/api/getdata</p>";
+  text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/create (POST)</p>";
-  text += "<p>/api/deletevariant/:report~:variant</p>";
+  /*text += "<p>/api/deletevariant/:report~:variant</p>";
   text += "<p>/api/createvariant/:report~:variant~:user~:json</p>";
   text += "<p>/api/login/:id~:psw</p>";
   text += "<p>/api/getusers</p>";
@@ -387,6 +387,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/createrole/:id~:email~:arrayroles</p>";
   text += '<p>/api/edituser/:id~:email~:psw~["Ruolo1","Ruolo3"]</p>';
   text += "<p>/api/editrole/:id~:email~:arrayroles</p>";
+  */
   //text += '<p>/api/createlink_user/:id~["Ruolo1","Ruolo3"]';
   res.send(text);
 });
