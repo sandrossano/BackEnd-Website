@@ -130,17 +130,28 @@ app.get("/api/getpagesfromcat/:id", (req, res) => {
   );
 });
 
-app.get("/api/createpage/:name", (req, res) => {
+app.get("/api/createpage/:name~:idcat", (req, res) => {
   //const id = req.body.id;
   const name = req.params.name;
-  //const text = req.body.text;
+  const idcat = req.params.idcat;
 
   db.query("INSERT INTO t_pages (nome) VALUES (?)", name, (err, result) => {
     if (err) {
       console.log(err);
     }
     console.log(result);
-    res.send(result);
+    //res.send(result);
+    db.query(
+      "INSERT INTO t_cat_pag_link (id_cat,id_pag) VALUES (?,?)",
+      [idcat, result.insertId],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(result);
+        res.send(result);
+      }
+    );
   });
 });
 
@@ -204,7 +215,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/createcategory/:name</p>";
   text += "<p>/api/deletecategory/:id</p>";
   text += "<p>/api/editcategory/:id~:nome</p>";
-  text += "<p>/api/createpage/:name</p>";
+  text += "<p>/api/createpage/:name~:idcat</p>";
   text += "<p>/api/deletepage/:id</p>";
   text += "<p>/api/editpage/:id~:nome</p>";
   text += "<p>/api/create (POST)</p>";
