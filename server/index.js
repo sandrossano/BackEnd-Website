@@ -45,8 +45,7 @@ app.get("/api/getdatapages", (req, res) => {
   });
 });
 
-const querycats =
-  "SELECT id, category FROM t_category ORDER BY category DESC";
+const querycats = "SELECT id, category FROM t_category ORDER BY category DESC";
 // Route to get all posts
 app.get("/api/getdatacats", (req, res) => {
   const id = req.params.id;
@@ -76,6 +75,20 @@ app.get("/api/createcategory/:name", (req, res) => {
   );
 });
 
+app.get("/api/deletecategory/:id", (req, res) => {
+  //const id = req.body.id;
+  const id = req.params.id;
+  //const text = req.body.text;
+
+  db.query("DELETE FROM t_category WHERE id = ?", id, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result);
+    res.send(result);
+  });
+});
+
 // Route for creating the post
 app.post("/api/create", (req, res) => {
   //const id = req.body.id;
@@ -101,6 +114,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/getdatapages</p>";
   text += "<p>/api/getdatacats</p>";
   text += "<p>/api/createcategory/:name</p>";
+  text += "<p>/api/deletecategory/:id</p>";
   text += "<p>/api/create (POST)</p>";
 
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
