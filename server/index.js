@@ -45,6 +45,18 @@ app.get("/api/getdatapages", (req, res) => {
   });
 });
 
+const querycats =
+  "SELECT JSON_ARRAYAGG(category) AS catlist FROM t_category ORDER BY category DESC";
+// Route to get all posts
+app.get("/api/getdatacats", (req, res) => {
+  const id = req.params.id;
+  db.query(querycats, id, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send(result);
+  });
+});
 // Route for creating the post
 app.post("/api/create", (req, res) => {
   //const id = req.body.id;
@@ -68,6 +80,7 @@ app.get("/", (req, res) => {
   var text = "Backend Website: <p>/api/getdata</p>";
   text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/getdatapages</p>";
+  text += "<p>/api/getdatacats</p>";
   text += "<p>/api/create (POST)</p>";
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
   text += "<p>/api/createvariant/:report~:variant~:user~:json</p>";
