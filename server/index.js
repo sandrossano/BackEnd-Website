@@ -20,7 +20,7 @@ app.get("/api/getdata", (req, res) => {
   });
 });
 
-const queryvariant = "SELECT * FROM t_pages WHERE nome = ?";
+const queryvariant = "SELECT * FROM t_pages WHERE id = ?";
 // Route to get all posts
 app.get("/api/getdatafrompage/:id", (req, res) => {
   const id = req.params.id;
