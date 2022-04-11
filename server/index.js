@@ -92,7 +92,7 @@ app.get("/api/deletecategory/:id", (req, res) => {
 app.get("/api/editcategory/:id~:nome", (req, res) => {
   //const id = req.body.id;
   const id = req.params.id;
-  const nome = req.body.nome;
+  const nome = req.params.nome;
 
   db.query(
     "UPDATE t_category SET category = ? WHERE id = ?",
