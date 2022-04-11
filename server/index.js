@@ -144,7 +144,7 @@ app.get("/api/createpage/:name", (req, res) => {
   });
 });
 
-app.get("/api/page/:id", (req, res) => {
+app.get("/api/deletepage/:id", (req, res) => {
   //const id = req.body.id;
   const id = req.params.id;
   //const text = req.body.text;
