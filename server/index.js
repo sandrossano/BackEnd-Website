@@ -46,7 +46,7 @@ app.get("/api/getdatapages", (req, res) => {
 });
 
 const querycats =
-  "SELECT JSON_ARRAYAGG(category) AS catlist FROM t_category ORDER BY category DESC";
+  "SELECT id, category AS catlist FROM t_category ORDER BY category DESC";
 // Route to get all posts
 app.get("/api/getdatacats", (req, res) => {
   const id = req.params.id;
