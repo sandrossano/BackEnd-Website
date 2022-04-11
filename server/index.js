@@ -57,6 +57,25 @@ app.get("/api/getdatacats", (req, res) => {
     res.send(result);
   });
 });
+
+app.get("/api/createcategory/:name", (req, res) => {
+  //const id = req.body.id;
+  const name = req.params.name;
+  //const text = req.body.text;
+
+  db.query(
+    "INSERT INTO t_category (category) VALUES (?)",
+    name,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      res.send(result);
+    }
+  );
+});
+
 // Route for creating the post
 app.post("/api/create", (req, res) => {
   //const id = req.body.id;
@@ -81,7 +100,9 @@ app.get("/", (req, res) => {
   text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/getdatapages</p>";
   text += "<p>/api/getdatacats</p>";
+  text += "<p>/api/createcategory/:name</p>";
   text += "<p>/api/create (POST)</p>";
+
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
   text += "<p>/api/createvariant/:report~:variant~:user~:json</p>";
   text += "<p>/api/login/:id~:psw</p>";
