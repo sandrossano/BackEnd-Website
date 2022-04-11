@@ -89,6 +89,24 @@ app.get("/api/deletecategory/:id", (req, res) => {
   });
 });
 
+app.get("/api/editcategory/:id~:nome", (req, res) => {
+  //const id = req.body.id;
+  const id = req.params.id;
+  const nome = req.body.nome;
+
+  db.query(
+    "UPDATE t_category SET category = ? WHERE id = ?",
+    [nome, id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      res.send(result);
+    }
+  );
+});
+
 // Route for creating the post
 app.post("/api/create", (req, res) => {
   //const id = req.body.id;
@@ -115,6 +133,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/getdatacats</p>";
   text += "<p>/api/createcategory/:name</p>";
   text += "<p>/api/deletecategory/:id</p>";
+  text += "<p>/api/editcategory/:id~:nome</p>";
   text += "<p>/api/create (POST)</p>";
 
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
