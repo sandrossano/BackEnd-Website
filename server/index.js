@@ -194,8 +194,8 @@ app.post("/api/sendpage", (req, res) => {
   const image = req.body.image;
 
   db.query(
-    "UPDATE t_pages SET contenuto = ?, image = ? WHERE id = ?",
-    [base64, image, id],
+    "UPDATE t_pages SET contenuto = ? WHERE id = ?",
+    [base64, id],
     (err, result) => {
       if (err) {
         console.log(err);
