@@ -188,14 +188,14 @@ app.get("/api/editpage/:id~:nome", (req, res) => {
 });
 
 // Route for creating the post
-app.post("/api/create", (req, res) => {
-  //const id = req.body.id;
-  const title = req.body.title;
-  const text = req.body.text;
+app.post("/api/sendpage", (req, res) => {
+  const id = req.body.id;
+  const base64 = req.body.base64;
+  //const text = req.body.text;
 
   db.query(
-    "INSERT INTO t_pages (nome, contenuto) VALUES (?,?)",
-    [title, text],
+    "UPDATE t_pages SET contenuto = ? WHERE id = ?",
+    [base64, id],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -218,7 +218,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/createpage/:name~:idcat</p>";
   text += "<p>/api/deletepage/:id</p>";
   text += "<p>/api/editpage/:id~:nome</p>";
-  text += "<p>/api/create (POST)</p>";
+  text += "<p>/api/sendpage (POST)</p>";
 
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
   text += "<p>/api/createvariant/:report~:variant~:user~:json</p>";
