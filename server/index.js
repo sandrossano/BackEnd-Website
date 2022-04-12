@@ -191,11 +191,11 @@ app.get("/api/editpage/:id~:nome", (req, res) => {
 app.post("/api/sendpage", (req, res) => {
   const id = req.body.id;
   const base64 = req.body.base64;
-  //const text = req.body.text;
+  const image = req.body.image;
 
   db.query(
-    "UPDATE t_pages SET contenuto = ? WHERE id = ?",
-    [base64, id],
+    "UPDATE t_pages SET contenuto = ?, image = ? WHERE id = ?",
+    [base64, image, id],
     (err, result) => {
       if (err) {
         console.log(err);
