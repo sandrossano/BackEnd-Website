@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+//Set Request Size Limit
+app.use(express.limit(100000000));
 
 const querydata = "SELECT * FROM t_pages";
 // Route to get all posts
