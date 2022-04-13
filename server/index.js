@@ -227,8 +227,7 @@ app.post("/api/sendpage", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  var text =
-    "Backend Website: <p>/api/login/:id~:psw (POST)</p><p>/api/getdata</p>";
+  var text = "Backend Website: <p>/api/login (POST)</p><p>/api/getdata</p>";
   text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/getdatapages</p>";
   text += "<p>/api/getdatacats</p>";
