@@ -10,11 +10,11 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
 
-app.get("/api/login/:id~:psw", (req, res) => {
-  const id = req.params.id;
+app.post("/api/login", (req, res) => {
+  const id = req.body.email;
   const password = crypto
     .createHash("md5")
-    .update(req.params.psw)
+    .update(req.body.password)
     .digest("hex");
   db.query(
     "SELECT * FROM t_users WHERE email = ? AND password = ? ",
@@ -227,7 +227,8 @@ app.post("/api/sendpage", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  var text = "Backend Website: <p>/api/login/:id~:psw</p><p>/api/getdata</p>";
+  var text =
+    "Backend Website: <p>/api/login/:id~:psw (POST)</p><p>/api/getdata</p>";
   text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/getdatapages</p>";
   text += "<p>/api/getdatacats</p>";
