@@ -7,8 +7,26 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 //app.use(express.json());
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb'}));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb" }));
+
+app.get("/api/login/:id~:psw", (req, res) => {
+  const id = req.params.id;
+  const password = crypto
+    .createHash("md5")
+    .update(req.params.psw)
+    .digest("hex");
+  db.query(
+    "SELECT * FROM tt_users WHERE login = ? AND password = ? ",
+    [id, password],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      res.send(result);
+    }
+  );
+});
 
 const querydata = "SELECT * FROM t_pages";
 // Route to get all posts
@@ -209,7 +227,7 @@ app.post("/api/sendpage", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  var text = "Backend Website: <p>/api/getdata</p>";
+  var text = "Backend Website: <p>/api/login/:id~:psw</p><p>/api/getdata</p>";
   text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/getdatapages</p>";
   text += "<p>/api/getdatacats</p>";
