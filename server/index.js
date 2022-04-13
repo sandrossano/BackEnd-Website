@@ -17,7 +17,7 @@ app.get("/api/login/:id~:psw", (req, res) => {
     .update(req.params.psw)
     .digest("hex");
   db.query(
-    "SELECT * FROM t_users WHERE login = ? AND password = ? ",
+    "SELECT * FROM t_users WHERE email = ? AND password = ? ",
     [id, password],
     (err, result) => {
       if (err) {
