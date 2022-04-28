@@ -11,11 +11,11 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
 
-app.get("/api/getLinkedin", (req, res) => {
+app.get("/api/setLinkedin", (req, res) => {
   var config = {
     method: "get",
     url:
-      "https://cors-casillo-sap.herokuapp.com/https://api.linkedin.com/v2/ugcPosts?q=authors&authors=List(urn%3Ali%3Aorganization%3A11028533)&sortBy=LAST_MODIFIED&count=15&projection=(elements(displayImage~:playableStreams))",
+      "https://api.linkedin.com/v2/ugcPosts?q=authors&authors=List(urn%3Ali%3Aorganization%3A11028533)&sortBy=LAST_MODIFIED&count=15&projection=(elements(displayImage~:playableStreams))",
     headers: {
       "X-Restli-Protocol-Version": "2.0.0",
       Authorization:
@@ -29,12 +29,15 @@ app.get("/api/getLinkedin", (req, res) => {
     .then(function (response) {
       console.log(response.data);
       db.query(
-        "INSERT INTO t_linkedin (`day`, `json_file`)" + " VALUES (?, ? )",
-        [new Date().toISOString(), response.data],
+        "INSERT INTO t_linkedin (`day`, `json_file`) VALUES (?, ? )",
+        [new Date().toISOString(), JSON.stringify(response.data)],
         (err, result) => {
           if (err) {
+            res.send(err);
             //console.log(err.sqlMessage);
             console.log(err);
+          } else {
+            res.send(result);
           }
         }
       );
@@ -42,8 +45,22 @@ app.get("/api/getLinkedin", (req, res) => {
       //setdataLikedin(filtro(response.data));
     })
     .catch(function (error) {
+      res.send(error);
       console.log(error);
     });
+});
+
+app.get("/api/getLinkedin", (req, res) => {
+  db.query(
+    "SELECT * FROM t_linkedin ORDER BY day DESC LIMIT 1 ",
+    "",
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
+      res.send(result);
+    }
+  );
 });
 
 app.post("/api/login", (req, res) => {
@@ -275,7 +292,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/deletepage/:id</p>";
   text += "<p>/api/editpage/:id~:nome</p>";
   text += "<p>/api/sendpage (POST)</p>";
-  text += "<p>/api/getLinkedin (SCHEDULE 1gg)</p>";
+  text += "<p>/api/setLinkedin (updateLinkedin.js SCHEDULE 1gg)</p>";
 
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
   text += "<p>/api/createvariant/:report~:variant~:user~:json</p>";
