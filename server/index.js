@@ -294,6 +294,7 @@ app.get("/", (req, res) => {
   text += "<p>/api/deletepage/:id</p>";
   text += "<p>/api/editpage/:id~:nome</p>";
   text += "<p>/api/sendpage (POST)</p>";
+  text += "<p>/api/getLinkedin</p>";
   text += "<p>/api/setLinkedin (updateLinkedin.js SCHEDULE 1gg)</p>";
 
   /*text += "<p>/api/deletevariant/:report~:variant</p>";
