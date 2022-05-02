@@ -19,19 +19,27 @@ var config = {
 axios(config)
   .then(function (response) {
     console.log(response.data);
-    db.query(
-      "INSERT INTO t_linkedin (`day`, `json_file`) VALUES (?, ? )",
-      [new Date().toISOString(), JSON.stringify(response.data)],
-      (err, result) => {
-        if (err) {
-          //res.send(err);
-          //console.log(err.sqlMessage);
-          console.log(err);
-        } else {
-          console.log(result);
-        }
+    db.query("DELETE FROM t_linkedin", [], (err, result) => {
+      if (err) {
+        console.log(err);
       }
-    );
+      console.log(result);
+      //res.send(result);
+
+      db.query(
+        "INSERT INTO t_linkedin (`day`, `json_file`) VALUES (?, ? )",
+        [new Date().toISOString(), JSON.stringify(response.data)],
+        (err, result) => {
+          if (err) {
+            //res.send(err);
+            //console.log(err.sqlMessage);
+            console.log(err);
+          } else {
+            console.log(result);
+          }
+        }
+      );
+    });
 
     //setdataLikedin(filtro(response.data));
   })
