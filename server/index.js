@@ -123,8 +123,8 @@ app.get("/api/getdataCards", (req, res) => {
 });
 
 const querycases =
-  "SELECT * FROM t_pages WHERE ( id = '30'" +
-  " OR id = '35' OR id = '36' OR id = '37' OR id = '38' )" +
+  "SELECT * FROM t_pages WHERE (" +
+  " id = '35' OR id = '36' OR id = '37' OR id = '38' )" +
   " AND status = 0";
 // Route to get all posts
 app.get("/api/getdataCases", (req, res) => {
