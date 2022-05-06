@@ -122,6 +122,21 @@ app.get("/api/getdataCards", (req, res) => {
   });
 });
 
+const querycases =
+  "SELECT * FROM t_pages WHERE ( id = '30'" +
+  " OR id = '35' OR id = '36' OR id = '37' OR id = '38' )" +
+  " AND status = 0";
+// Route to get all posts
+app.get("/api/getdataCases", (req, res) => {
+  //const id = req.params.id;
+  db.query(querycases, [], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send(result);
+  });
+});
+
 const querypages =
   "SELECT JSON_ARRAYAGG(nome) AS namelist FROM t_pages WHERE status = 0 ORDER BY nome DESC ";
 // Route to get all posts
@@ -300,6 +315,7 @@ app.get("/", (req, res) => {
   var text = "Backend Website: <p>/api/login (POST)</p><p>/api/getdata</p>";
   text += "<p>/api/getdatafrompage/:id</p>";
   text += "<p>/api/getdataCards</p>";
+  text += "<p>/api/getdataCases</p>";
   text += "<p>/api/getdatapages</p>";
   text += "<p>/api/getdatacats</p>";
   text += "<p>/api/getpagesfromcat/:id</p>";
