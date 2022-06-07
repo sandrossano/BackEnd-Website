@@ -87,7 +87,7 @@ const querypartner = "SELECT * FROM t_partner";
 // Route to get all posts
 app.get("/api/getpartner", (req, res) => {
   const id = req.params.id;
-  db.query(querydata, id, (err, result) => {
+  db.query(querypartner, id, (err, result) => {
     if (err) {
       console.log(err);
     }
