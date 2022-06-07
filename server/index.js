@@ -83,6 +83,18 @@ app.post("/api/login", (req, res) => {
   );
 });
 
+const querypartner = "SELECT * FROM t_partner";
+// Route to get all posts
+app.get("/api/getpartner", (req, res) => {
+  const id = req.params.id;
+  db.query(querydata, id, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send(result);
+  });
+});
+
 const querydata = "SELECT * FROM t_pages";
 // Route to get all posts
 app.get("/api/getdata", (req, res) => {
@@ -314,6 +326,7 @@ app.post("/api/sendpage", (req, res) => {
 app.get("/", (req, res) => {
   var text = "Backend Website: <p>/api/login (POST)</p><p>/api/getdata</p>";
   text += "<p>/api/getdatafrompage/:id</p>";
+  text += "<p>/api/getpartner</p>";
   text += "<p>/api/getdataCards</p>";
   text += "<p>/api/getdataCases</p>";
   text += "<p>/api/getdatapages</p>";
