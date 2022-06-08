@@ -131,6 +131,18 @@ app.get("/api/getdatafrompage/:id", (req, res) => {
   });
 });
 
+const queryname = "SELECT * FROM t_pages WHERE nome = ? AND status = 0";
+// Route to get all posts
+app.get("/api/getdatafromname/:name", (req, res) => {
+  const name = req.params.name;
+  db.query(queryname, name, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send(result);
+  });
+});
+
 const querycards =
   "SELECT * FROM t_pages WHERE ( id = '30'" +
   " OR id = '31' OR id = '32' OR id = '33' OR id = '34' )" +
@@ -340,6 +352,7 @@ app.post("/api/sendpage", (req, res) => {
 app.get("/", (req, res) => {
   var text = "Backend Website: <p>/api/login (POST)</p><p>/api/getdata</p>";
   text += "<p>/api/getdatafrompage/:id</p>";
+  text += "<p>/api/getdatafromname/:name</p>";
   text += "<p>/api/getpartner</p>";
   text += "<p>/api/getExpertise</p>";
   text += "<p>/api/getdataCards</p>";
