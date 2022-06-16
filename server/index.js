@@ -335,10 +335,11 @@ app.post("/api/sendpage", (req, res) => {
   const image = req.body.image;
   const manager = req.body.manager;
   const area = req.body.area;
+  const qualifica = req.body.qualifica;
 
   db.query(
-    "UPDATE t_pages SET contenuto = ?, image = ?, manager = ?, area = ? WHERE id = ?",
-    [base64, image, manager, area, id],
+    "UPDATE t_pages SET contenuto = ?, image = ?, manager = ?, area = ?, qualifica = ? WHERE id = ?",
+    [base64, image, manager, area, qualifica, id],
     (err, result) => {
       if (err) {
         console.log(err);
